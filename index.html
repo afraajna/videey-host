@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>videey</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    h1 {
+      font-size: 32px;
+    }
+    p {
+      color: gray;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-weight: bold;
+      background: #6b7280;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #linkResult {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Free and Simple Video Hosting</h1>
+  <p>Get started without an account</p>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="video" accept="video/*" required />
+    <br/>
+    <button type="submit">Upload a Video</button>
+  </form>
+
+  <div id="linkResult"></div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      document.getElementById('linkResult').innerHTML =
+        `<p>Link Video:</p><a href="${data.url}" target="_blank">${data.url}</a>`;
+    });
+  </script>
+</body>
+</html>
